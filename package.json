@@ -13,7 +13,8 @@
   },
   "devDependencies": {
     "@types/libsodium-wrappers": "^0.7.14",
-    "@types/node": "^22.13.14"
+    "@types/node": "^22.13.14",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "dotenv": "^16.4.7",

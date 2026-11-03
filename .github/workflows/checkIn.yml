@@ -7,27 +7,21 @@ on:
 
 jobs:
   check-in:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Cache build output
-        uses: actions/cache@v4
-        with:
-          path: dist
-          key: ${{ runner.os }}-dist-${{ hashFiles('src/**/*.ts') }}
-          restore-keys: |
-            ${{ runner.os }}-dist-
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --include=dev --no-audit --fund=false
 
       - name: Build
         run: npm run build
@@ -43,7 +37,7 @@ jobs:
           TOKEN: ${{ secrets.GH_TOKEN }}
   workflow-keepalive:
     if: github.event_name == 'schedule'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       actions: write
     steps:
